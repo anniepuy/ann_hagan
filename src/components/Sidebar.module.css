@@ -10,6 +10,7 @@
 }
 .sideUi{
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -64,4 +65,13 @@
   .side{ position: relative; width: 100%; height: auto; }
   .nav{ flex-direction: row; flex-wrap: wrap; gap: 0 20px; margin-top: 16px; }
   .foot{ margin-top: 18px; }
+}
+
+.fx{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;      /* behind the text */
 }

@@ -5,7 +5,7 @@ const nav = ["Work", "About", "Journal", "Contact"];
 ---
 
 <aside class={styles.side}>
-  <!-- Step 3: the WebGL fluid <canvas> will mount here, behind the UI -->
+  <canvas class={styles.fx} id="fx"></canvas>
   <div class={styles.sideUi}>
     <div class={styles.brand}>
       <h1>Ann Hagan</h1>
@@ -30,3 +30,57 @@ const nav = ["Work", "About", "Journal", "Contact"];
     </div>
   </div>
 </aside>
+
+<script>
+  const canvas = document.getElementById("fx");
+  const side = canvas.closest("aside");
+  const ctx = canvas.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let W, H, DPR;
+  const P = { x: 0, y: 0, over: false };
+
+  // Size the canvas to the sidebar
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    W = r.width;
+    H = r.height;
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(W * DPR);
+    canvas.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); // draw in CSS pixels, render at DPR
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Pointer position RELATIVE to the sidebar (subtract its top-left corner).
+  side.addEventListener("pointermove", (e) => {
+    const r = side.getBoundingClientRect();
+    P.x = e.clientX - r.left;
+    P.y = e.clientY - r.top;
+    P.over = true;
+  });
+  side.addEventListener("pointerleave", () => {
+    P.over = false;
+  });
+
+  // One animation frame: dark base, plus a violet glow under the cursor.
+  function frame() {
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, "#0b0812");
+    bg.addColorStop(1, "#160f22");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    if (P.over) {
+      const g = ctx.createRadialGradient(P.x, P.y, 0, P.x, P.y, 160);
+      g.addColorStop(0, "rgba(157, 92, 255, 0.5)");
+      g.addColorStop(1, "rgba(157, 92, 255, 0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+</script>
