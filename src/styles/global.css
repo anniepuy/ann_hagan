@@ -1,0 +1,63 @@
+/* ============================================================
+   Design tokens — "Ferrofluid at Dusk"
+   These CSS custom properties are defined once here and reused
+   everywhere via var(--name). Change a value here → it updates
+   across the whole site.
+   ============================================================ */
+:root{
+  color-scheme: dark;
+
+  /* palette */
+  --ink:     #0b0812;   /* deepest background / fluid base */
+  --ink-2:   #160f22;   /* sidebar surface */
+  --rose:    #ff5c9d;
+  --violet:  #9d5cff;
+  --teal:    #38e0d0;
+  --amber:   #ffbf66;
+  --paper:   #f4efe6;   /* content-column background */
+  --paper-2: #ece4d5;   /* cards / recessed surfaces */
+  --line:    #dcd2c1;   /* hairline borders */
+  --text:    #241c30;   /* body text on paper */
+  --muted:   #736a7e;   /* labels / meta */
+
+  /* type roles */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body:    "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
+
+  /* layout */
+  --sidebar-w: 320px;
+}
+
+/* small reset */
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width: 100%; display: block; }
+a{ color: inherit; }
+
+/* ============================================================
+   The two-column shell (used by the layout)
+   ============================================================ */
+.shell{ display: flex; min-height: 100%; }
+
+.main{
+  margin-left: var(--sidebar-w);   /* clear the fixed sidebar */
+  flex: 1;
+  min-width: 0;
+  padding: 64px clamp(28px, 6vw, 96px) 90px;
+  max-width: 920px;
+}
+
+/* On narrow screens the columns stack: sidebar becomes a top band */
+@media (max-width: 820px){
+  .shell{ flex-direction: column; }
+  .main{ margin-left: 0; padding: 40px 24px 64px; }
+}
