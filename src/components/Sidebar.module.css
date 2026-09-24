@@ -1,0 +1,67 @@
+/* Scoped to Sidebar via CSS Modules. camelCase classes → styles.xxx.
+   var(--…) tokens still resolve — custom properties are global. */
+.side{
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sidebar-w);
+  height: 100%;
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.sideUi{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 34px 30px 28px;
+}
+.brand h1{
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 30px;
+  letter-spacing: -.01em;
+  color: #fff;
+}
+.role{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.62);
+}
+.nav{ margin-top: 38px; display: flex; flex-direction: column; gap: 2px; }
+.nav a{
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.82);
+  text-decoration: none;
+  padding: 9px 0;
+  width: max-content;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.nav a:hover,
+.nav a:focus-visible{ color: #fff; border-color: var(--rose); outline: none; }
+.nav a[aria-current]::before{ content: "— "; color: var(--teal); }
+
+.foot{ margin-top: auto; }
+.social{ display: flex; gap: 16px; }
+.social a{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.66);
+  text-decoration: none;
+  transition: color .2s;
+}
+.social a:hover{ color: var(--teal); }
+
+@media (max-width: 820px){
+  .side{ position: relative; width: 100%; height: auto; }
+  .nav{ flex-direction: row; flex-wrap: wrap; gap: 0 20px; margin-top: 16px; }
+  .foot{ margin-top: 18px; }
+}

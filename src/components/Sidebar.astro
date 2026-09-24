@@ -1,0 +1,32 @@
+---
+import styles from "./Sidebar.module.css";
+
+const nav = ["Work", "About", "Journal", "Contact"];
+---
+
+<aside class={styles.side}>
+  <!-- Step 3: the WebGL fluid <canvas> will mount here, behind the UI -->
+  <div class={styles.sideUi}>
+    <div class={styles.brand}>
+      <h1>Ann Hagan</h1>
+      <span class={styles.role}>Maker · Writer</span>
+    </div>
+
+    <nav class={styles.nav}>
+      {
+        nav.map((item, i) => (
+          <a href="#" aria-current={i === 0 ? "page" : undefined}>
+            {item}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class={styles.foot}>
+      <div class={styles.social}>
+        <a href="#">GitHub ↗</a>
+        <a href="#">YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+</aside>
