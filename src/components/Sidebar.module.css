@@ -10,7 +10,7 @@
 }
 .sideUi{
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -30,6 +30,27 @@
   letter-spacing: .28em;
   text-transform: uppercase;
   color: rgba(255,255,255,.62);
+}
+.fx{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;      /* behind the text */
+}
+.veil{
+  position: absolute;
+  inset: 0;
+  z-index: 1;             /* above canvas, below the text (which is z-index: 2) */
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(11, 8, 18, 0.82) 0%,
+    rgba(11, 8, 18, 0.25) 20%,
+    rgba(11, 8, 18, 0)   42%,
+    rgba(11, 8, 18, 0)   60%,
+    rgba(11, 8, 18, 0.45) 82%,
+    rgba(11, 8, 18, 0.90) 100%);
 }
 .nav{ margin-top: 38px; display: flex; flex-direction: column; gap: 2px; }
 .nav a{
@@ -67,11 +88,4 @@
   .foot{ margin-top: 18px; }
 }
 
-.fx{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  z-index: 0;      /* behind the text */
-}
+
