@@ -1,43 +1,96 @@
-# Astro Starter Kit: Minimal
+# ann_hagan — personal portfolio & journal
 
-```sh
-npm create astro@latest -- --template minimal
+My personal site: a minimalist, content-first portfolio and blog with an
+interactive **WebGL fluid sidebar** you can push around with your cursor.
+Fully static, no backend.
+
+## Highlights
+
+- **Interactive fluid sidebar** — a real GPU fluid simulation (Stable-Fluids
+  method, tone-mapped), calm and cursor-reactive.
+- **Content collections** — write a Markdown file, get a page. Posts and projects
+  are validated against Zod schemas.
+- **Zero-JS by default** — Astro ships static HTML/CSS; only the sidebar hydrates.
+
+## Tech stack
+
+- [Astro](https://astro.build) (static output)
+- Vanilla JavaScript + WebGL for the fluid effect (no framework)
+- CSS Modules + CSS custom-property design tokens
+- Fonts: Fraunces, Hanken Grotesk, Space Mono
+- Deployed on Cloudflare Pages
+
+## Local development
+
+```bash
+npm install      # install dependencies
+npm run dev      # dev server at http://localhost:4321
+npm run build    # production build -> dist/
+npm run preview  # preview the production build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Developed on Node 24 LTS (Astro requires Node 18.20+ / 20.3+ / 22+).
 
-## 🚀 Project Structure
+## Project structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+  layouts/BaseLayout.astro    # page shell: <head>, fonts, sidebar + <slot>
+  components/Sidebar.astro    # dark rail + WebGL fluid canvas
+  lib/fluid.js                # the GPU fluid simulation
+  pages/
+    index.astro               # home: intro, project grid, recent posts
+    about.astro               # about
+    journal/index.astro       # journal: latest post in full + archive
+    journal/[id].astro        # individual post pages
+  content/
+    blog/*.md                 # journal entries
+    projects/*.md             # project entries
+  content.config.ts           # collection schemas
+  styles/global.css           # design tokens + reset + layout shell
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Adding content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+**Blog post** — add `src/content/blog/<slug>.md`:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```md
+---
+title: "Post title"
+description: "One-line summary."
+pubDate: 2026-10-05
+tags: ["agents"]
+draft: false
+---
 
-## 🧞 Commands
+Your post, in Markdown.
+```
 
-All commands are run from the root of the project, from a terminal:
+**Project** — add `src/content/projects/<slug>.md`:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```md
+---
+title: "Project name"
+summary: "One-sentence pitch."
+github: "https://github.com/..."
+order: 1
+---
+```
 
-## 👀 Want to learn more?
+The filename becomes the URL slug. New files appear on the site automatically —
+no code changes needed.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment
+
+Static build on **Cloudflare Pages**:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Production branch: `develop`
+
+Every push to `develop` triggers a new deploy.
+
+## Credits
+
+Fluid simulation adapted from the WebGL Stable-Fluids technique — Jos Stam's
+method, popularized by Pavel Dobryakov's MIT-licensed implementation.
