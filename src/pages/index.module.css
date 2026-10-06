@@ -1,0 +1,67 @@
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--violet); margin: 0 0 18px;
+}
+.lede{
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(30px, 4.4vw, 46px); line-height: 1.12; letter-spacing: -.015em;
+  margin: 0 0 22px; text-wrap: balance; max-width: 18ch;
+}
+.lede em{ font-style: italic; color: var(--violet); }
+.intro{ font-size: 17px; color: #4a4256; max-width: 56ch; margin: 0; }
+
+.head{
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin: 64px 0 20px; gap: 16px;
+  border-bottom: 1px solid var(--line); padding-bottom: 14px;
+}
+.head h2{
+  font-family: var(--font-display); font-weight: 500; font-size: 22px;
+  margin: 0; letter-spacing: -.01em;
+}
+.count{
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.card{
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--paper-2); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px;
+  transition: border-color .2s, transform .2s;
+}
+.card:hover{ border-color: var(--violet); transform: translateY(-3px); }
+.card h3{
+  font-family: var(--font-display); font-weight: 500; font-size: 20px;
+  margin: 0; letter-spacing: -.01em;
+}
+.card p{ font-size: 14.5px; line-height: 1.55; color: #544c60; margin: 0; }
+.links{ display: flex; gap: 14px; margin-top: 4px; }
+.links a{
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--violet); text-decoration: none;
+}
+.links a:hover{ text-decoration: underline; }
+
+.posts{ list-style: none; margin: 0; padding: 0; }
+.posts li{ border-bottom: 1px solid var(--line); }
+.posts a{
+  display: flex; align-items: baseline; gap: 20px;
+  padding: 18px 4px; text-decoration: none; color: inherit;
+  transition: padding-left .2s, color .2s;
+}
+.posts a:hover{ padding-left: 10px; color: var(--violet); }
+.posts time{
+  font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  white-space: nowrap; min-width: 92px;
+}
+.ptitle{
+  font-family: var(--font-display); font-weight: 500; font-size: 18px;
+  letter-spacing: -.01em;
+}
+
+@media (max-width: 620px){
+  .grid{ grid-template-columns: 1fr; }
+}

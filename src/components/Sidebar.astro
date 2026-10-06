@@ -1,7 +1,15 @@
 ---
 import styles from "./Sidebar.module.css";
 
-const nav = ["Work", "About", "Journal", "Contact"];
+const nav = [
+  { label: "Work", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Journal", href: "/journal" },
+];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
 ---
 
 <aside class={styles.side}>
@@ -15,9 +23,12 @@ const nav = ["Work", "About", "Journal", "Contact"];
 
     <nav class={styles.nav}>
       {
-        nav.map((item, i) => (
-          <a href="#" aria-current={i === 0 ? "page" : undefined}>
-            {item}
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+          >
+            {item.label}
           </a>
         ))
       }

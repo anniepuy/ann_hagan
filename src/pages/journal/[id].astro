@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import styles from "./post.module.css";
+
+// Pre-build one page per blog entry.
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id }, // fills [id] → /journal/<id>
+    props: { post }, // passed to the page below
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post); // Content renders the Markdown body
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<BaseLayout title={post.data.title}>
+  <article class={styles.wrap}>
+    <a class={styles.back} href="/">← Back</a>
+    <p class={styles.date}>{fmt(post.data.pubDate)}</p>
+    <h1 class={styles.title}>{post.data.title}</h1>
+    <div class={styles.prose}>
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

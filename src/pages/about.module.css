@@ -1,0 +1,18 @@
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--violet); margin: 0 0 18px;
+}
+.title{
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(30px, 4.4vw, 44px); line-height: 1.12; letter-spacing: -.015em;
+  margin: 0 0 28px; text-wrap: balance;
+}
+.prose{ font-size: 17px; line-height: 1.7; color: #3f3850; max-width: 62ch; }
+.prose p{ margin: 0 0 1.1em; }
+.prose strong{ color: var(--text); }
+.prose h2{
+  font-family: var(--font-display); font-weight: 500; font-size: 22px;
+  margin: 1.8em 0 .5em; color: var(--text);
+}
+.prose a{ color: var(--violet); }

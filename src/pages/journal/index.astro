@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import prose from "./post.module.css"; // reuse the prose styles we already wrote
+import styles from "./journal.module.css";
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latest = posts[0];
+const rest = posts.slice(1);
+
+// render the latest post's body (guarded in case there are no posts yet)
+const rendered = latest ? await render(latest) : null;
+const Content = rendered?.Content;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+<BaseLayout title="Journal — Ann Hagan">
+  <p class={styles.eyebrow}>Journal</p>
+
+  {
+    latest && Content && (
+      <article class={styles.featured}>
+        <p class={styles.date}>{fmt(latest.data.pubDate)} · Latest</p>
+        <h1 class={styles.featuredTitle}>
+          <a href={`/journal/${latest.id}`}>{latest.data.title}</a>
+        </h1>
+        <div class={prose.prose}>
+          <Content />
+        </div>
+      </article>
+    )
+  }
+
+  {
+    rest.length > 0 && (
+      <section class={styles.archive}>
+        <h2 class={styles.archiveHead}>More entries</h2>
+        <ul class={styles.list}>
+          {rest.map((post) => (
+            <li>
+              <a href={`/journal/${post.id}`}>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {fmt(post.data.pubDate)}
+                </time>
+                <span class={styles.ptitle}>{post.data.title}</span>
+                <span class={styles.pdesc}>{post.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BaseLayout>

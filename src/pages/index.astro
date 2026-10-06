@@ -1,12 +1,75 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import styles from "./index.module.css";
+
+// Query the collections - these come from the markdown files
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const posts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Small date formater (typed so stict TS is happy)
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 ---
 
 <BaseLayout title="Ann Hagan — Portfolio & Journal">
-  <h1>Home</h1>
-  <p>
-    This is the content column. We'll build the real homepage next — for now
-    this just proves the shell works: dark sidebar on the left, this text on the
-    right.
+  <p class={styles.eyebrow}>Portfolio · Journal</p>
+  <h1 class={styles.lede}>I turn data into <em>applied intelligence</em>.</h1>
+  <p class={styles.intro}>
+    A workshop for machine-learning experiments — teaching models to reason,
+    building agents that act, and shrinking all of it down to run at the edge.
+    Everything here is a work in progress — that's the fun part.
   </p>
+
+  <section>
+    <div class={styles.head}>
+      <h2>Selected work</h2>
+      <span class={styles.count}>{projects.length} projects</span>
+    </div>
+    <div class={styles.grid}>
+      {
+        projects.map((p) => (
+          <article class={styles.card}>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.summary}</p>
+            <div class={styles.links}>
+              {p.data.github && <a href={p.data.github}>GitHub ↗</a>}
+              {p.data.demo && <a href={p.data.demo}>Live ↗</a>}
+              {p.data.youtube && <a href={p.data.youtube}>YouTube ↗</a>}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class={styles.head}>
+      <h2>From the journal</h2>
+      <span class={styles.count}>Latest</span>
+    </div>
+    <ul class={styles.posts}>
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/journal/${post.id}`}>
+              <time datetime={post.data.pubDate.toISOString()}>
+                {fmt(post.data.pubDate)}
+              </time>
+              <span class={styles.ptitle}>{post.data.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>
